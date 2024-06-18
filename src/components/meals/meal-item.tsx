@@ -10,6 +10,8 @@ export interface MealProps {
 	image: string | StaticImageData;
 	summary: string;
 	creator: string;
+	creator_email: string;
+	instructions: string;
 }
 
 export default function MealItem({
