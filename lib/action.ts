@@ -4,7 +4,14 @@ import { MealProps } from "@/components/meals/meal-item";
 import { saveMeal } from "./meals";
 import { redirect } from "next/navigation";
 
-export async function createMeal(formData: FormData) {
+function isInvalidText(text: string) {
+	return !text || text.trim() === "";
+}
+
+export async function createMeal(
+	prevState: any,
+	formData: any
+): Promise<{ message: string | null }> {
 	const meal = {
 		title: formData.get("title"),
 		summary: formData.get("summary"),
@@ -12,8 +19,23 @@ export async function createMeal(formData: FormData) {
 		image: formData.get("image"),
 		creator: formData.get("name"),
 		creator_email: formData.get("email"),
-	};
+	} as MealProps;
 
-	await saveMeal(meal as MealProps);
+	if (
+		isInvalidText(meal.title) ||
+		isInvalidText(meal.summary) ||
+		isInvalidText(meal.instructions) ||
+		isInvalidText(meal.creator) ||
+		isInvalidText(meal.creator_email) ||
+		!meal.creator_email.includes("@") ||
+		!meal.image ||
+		(meal.image as File).size === 0
+	) {
+		return {
+			message: "Invalid Input.",
+		};
+	}
+
+	await saveMeal(meal);
 	redirect("/meals");
 }
