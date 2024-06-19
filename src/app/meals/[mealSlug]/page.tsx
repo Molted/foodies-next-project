@@ -3,7 +3,13 @@ import classes from "./page.module.css";
 import { getMeal } from "../../../../lib/meals";
 import { MealProps } from "@/components/meals/meal-item";
 
-export default function MealDetailsPage({ params }: any) {
+interface MealDetailsProps {
+	params: {
+		mealSlug: string;
+	};
+}
+
+export default function MealDetailsPage({ params }: MealDetailsProps) {
 	const meal = getMeal(params.mealSlug) as MealProps;
 
 	meal.instructions = meal.instructions.replace(/\n/g, "<br />");
