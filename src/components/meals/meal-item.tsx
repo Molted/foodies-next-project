@@ -1,13 +1,13 @@
 import Link from "next/link";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 import classes from "./meal-item.module.css";
 
 export interface MealProps {
 	id?: string;
 	title: string;
-	slug: string;
-	image: string | StaticImageData;
+	slug?: string;
+	image: string | File;
 	summary: string;
 	creator: string;
 	creator_email: string;
@@ -25,7 +25,7 @@ export default function MealItem({
 		<article className={classes.meal}>
 			<header>
 				<div className={classes.image}>
-					<Image src={image} alt={title} fill />
+					<Image src={image as string} alt={title} fill />
 				</div>
 				<div className={classes.headerText}>
 					<h2>{title}</h2>
